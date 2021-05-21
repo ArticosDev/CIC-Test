@@ -16,9 +16,11 @@ const validarJWT = (req, res = response, next) => {
 
     try {
         //Verify with the Seed if is a valid token
-        const { uid, name } = jwt.verify(token, process.env.SECRET_JWT_SEED);
+        const { uid, name, email } = jwt.verify(token, process.env.SECRET_JWT_SEED);
         req.uid = uid;
         req.name = name;
+        req.email = email;
+        console.log(req);
 
     } catch (error) {
         return res.status(401).json({
