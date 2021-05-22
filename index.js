@@ -22,6 +22,9 @@ app.use(express.json());
 
 //Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/categories', require('./routes/categorias'));
+app.use('/api/product', require('./routes/product'));
+app.use('/api/search', require('./routes/buscar'));
 
 //Default path
 app.get('*', (req, res) => {

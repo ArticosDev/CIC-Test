@@ -20,7 +20,6 @@ const validarJWT = (req, res = response, next) => {
         req.uid = uid;
         req.name = name;
         req.email = email;
-        console.log(req);
 
     } catch (error) {
         return res.status(401).json({
@@ -31,8 +30,8 @@ const validarJWT = (req, res = response, next) => {
 
 
     next();
-}
+};
 
 module.exports = {
     validarJWT
-}
+};
