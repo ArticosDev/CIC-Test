@@ -4,7 +4,8 @@ const { Product } = require('../models')
 
 // Get All Products
 const getProducts = async(req, res = response) => {
-    const { limit = 5, startFrom = 0 } = req.query;
+
+    const { limit = 10, startFrom = 0 } = req.query;
     const query = { status: true };
 
     const [total, products] = await Promise.all([
@@ -66,10 +67,9 @@ const disableProduct = async(req, res = response) => {
 const createProduct = async(req, res = response) => {
 
     const { status, user, ...body } = req.body;
-
     const productDB = await Product.findOne({ name: body.name });
 
-    //check if the product exist
+    //check if the product exist checking by name
     if (productDB) {
         return res.status(400).json({
             msg: `El producto ${ productDB.name }, ya existe.`

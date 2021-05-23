@@ -1,6 +1,5 @@
 const { Category, Product } = require('../models');
 
-
 const existCategory = async(id) => {
     //Check if the category exist
     const exist = await Category.findById(id);

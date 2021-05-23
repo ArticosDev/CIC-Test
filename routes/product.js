@@ -25,7 +25,13 @@ router.get('/:id', [
 router.post('/:id', [
     validarJWT,
     check('name', 'El nombre es obligatorio.').notEmpty(),
-    check('category', 'No es un ID de mongo válido.').isMongoId(),
+    check('cod', 'El codigo es obligatorio.').notEmpty(),
+    check('stock', 'El stock es obligatorio.').notEmpty(),
+    check('price', 'El precio es obligatorio.').notEmpty(),
+    check('offertPrice', 'El precio de oferta es obligatorio.').notEmpty(),
+
+    check('category', 'category No es un ID de mongo válido.').isMongoId(),
+    check('user', 'user No es un ID de mongo válido.').isMongoId(),
     check('category').custom(existCategory),
     validarCampos
 ], createProduct);
