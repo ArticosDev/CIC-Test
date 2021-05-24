@@ -62,30 +62,40 @@ const disableCategory = async(req, res = response) => {
 //Create a neww category
 const createCategory = async(req, res = response) => {
 
-    console.log(req.body.cat);
     const name = req.body.cat.name.toUpperCase();
 
-    const categoryDB = await Category.findOne({ "name": name });
+    try {
+        //check if the category exist
+        const categoryDB = await Category.findOne({ "name": name });
+        if (categoryDB) {
+            return res.status(400).json({
+                msg: `La categoria ${ categoryDB.name }, ya existe.`
+            });
+        }
 
-    //check if the category exist
-    if (categoryDB) {
-        return res.status(400).json({
-            msg: `La categoria ${ categoryDB.name }, ya existe.`
+        //Generate data to be save
+        const data = {
+            name,
+            user: req.uid
+        };
+
+        const category = new Category(data);
+
+        //Save to DB
+        await category.save();
+
+        res.status(201).json({
+            ok: true,
+            category
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error de servidor.'
         });
     }
 
-    //Generate data to be save
-    const data = {
-        name,
-        user: req.uid
-    };
-
-    const category = new Category(data);
-
-    //Save to DB
-    await category.save();
-
-    res.status(201).json(category);
 };
 
 

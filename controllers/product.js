@@ -41,7 +41,6 @@ const updateProduct = async(req, res = response) => {
 
     const { id } = req.params;
     const data = req.body;
-
     data.user = req.uid;
 
     const product = await Product.updateOne({ "_id": ObjectID(id) }, { $set: data.producto }, { new: true });
@@ -63,29 +62,42 @@ const disableProduct = async(req, res = response) => {
 //Create a new product
 const createProduct = async(req, res = response) => {
 
-    const { status, user, ...body } = req.body;
-    const productDB = await Product.findOne({ name: body.name });
+    //const { status, user, ...body } = req.body;
+    //const name = req.body.name;
+    const name = req.body.name.toUpperCase();
+    try {
+        //check if the product exist checking by name
+        const productDB = await Product.findOne({ name });
+        if (productDB) {
+            return res.status(400).json({
+                msg: `El producto ${ productDB.name }, ya existe.`
+            });
+        }
 
-    //check if the product exist checking by name
-    if (productDB) {
-        return res.status(400).json({
-            msg: `El producto ${ productDB.name }, ya existe.`
+        //Generate data to be save
+        const data = {
+            ...req.body,
+            name: req.body.name.toUpperCase(),
+            user: req.uid
+        };
+
+
+        const producto = new Product(data);
+        console.log(producto);
+        //Save to DB
+        await producto.save();
+
+        res.status(201).json({
+            ok: true,
+            producto
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error de servidor.'
         });
     }
 
-    //Generate data to be save
-    const data = {
-        ...body,
-        name: body.name.toUpperCase(),
-        user: req.uid
-    };
-
-    const producto = new Product(data);
-
-    //Save to DB
-    await producto.save();
-
-    res.status(201).json(producto);
 };
 
 

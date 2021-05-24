@@ -5,7 +5,7 @@ const ProductSchema = Schema({
     status: {
         type: Boolean,
         required: true,
-        default: true
+        default: false
     },
     name: {
         type: String,
@@ -39,10 +39,10 @@ const ProductSchema = Schema({
         required: true
     },
 });
-
+/*
 ProductSchema.methods.toJSON = function() {
     const {...data } = this.toObject();
     return data;
 };
-
+*/
 module.exports = model('Product', ProductSchema);
