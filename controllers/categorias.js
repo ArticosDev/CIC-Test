@@ -62,8 +62,10 @@ const disableCategory = async(req, res = response) => {
 //Create a neww category
 const createCategory = async(req, res = response) => {
 
-    const name = req.body.name.toUpperCase();
-    const categoryDB = await Category.findOne(name);
+    console.log(req.body.cat);
+    const name = req.body.cat.name.toUpperCase();
+
+    const categoryDB = await Category.findOne({ "name": name });
 
     //check if the category exist
     if (categoryDB) {

@@ -22,7 +22,7 @@ router.get('/:id', [
 ], getCategory);
 
 //create a category
-router.post('/:id', [
+router.post('/:name', [
     validarJWT,
     check('name', 'El nombre es obligatorio.').notEmpty(),
     validarCampos
