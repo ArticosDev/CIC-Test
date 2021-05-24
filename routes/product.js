@@ -40,7 +40,7 @@ router.post('/:id', [
 router.put('/:id', [
     validarJWT,
     //check('category', 'No es un ID de mongo válido.').isMongoId(),
-    check('category').custom(existProduct),
+    //check('category').custom(existProduct),
     check('id').custom(existProduct),
     validarCampos
 ], updateProduct);

@@ -1,5 +1,6 @@
 const { response } = require("express");
-const { Product } = require('../models')
+const { Product } = require('../models');
+var ObjectID = require('mongodb').ObjectID;
 
 
 // Get All Products
@@ -41,20 +42,13 @@ const updateProduct = async(req, res = response) => {
     const { id } = req.params;
     const data = req.body;
 
-    if (data.name) {
-        data.name = data.name.toUpperCase();
-    }
     data.user = req.uid;
 
-
-
-    const product = await Product.findByIdAndUpdate(id, data, { new: true });
+    const product = await Product.updateOne({ "_id": ObjectID(id) }, { $set: data.producto }, { new: true });
 
     res.json(product);
 };
 
-
-//createProduct, getProduct, getProducts, updateProduct, disableProduct
 //Disable product
 const disableProduct = async(req, res = response) => {
 
