@@ -2,7 +2,11 @@ const { Schema, model } = require("mongoose");
 
 //Product schema to define the product object
 const ProductSchema = Schema({
-
+    status: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     name: {
         type: String,
         required: true,
@@ -29,11 +33,6 @@ const ProductSchema = Schema({
         ref: 'Category',
         required: true
     },
-    status: {
-        type: Boolean,
-        required: true,
-        default: true
-    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
@@ -42,7 +41,7 @@ const ProductSchema = Schema({
 });
 
 ProductSchema.methods.toJSON = function() {
-    const { status, ...data } = this.toObject();
+    const {...data } = this.toObject();
     return data;
 };
 

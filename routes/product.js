@@ -16,7 +16,7 @@ router.get('/', getProducts);
 
 //Get an specific  Product by id
 router.get('/:id', [
-    check('id', 'No es un ID de mongo válido.').isMongoId(),
+    //check('id', 'No es un ID de mongo válido.').isMongoId(),
     check('id').custom(existProduct),
     validarCampos,
 ], getProduct);
@@ -40,6 +40,7 @@ router.post('/:id', [
 router.put('/:id', [
     validarJWT,
     //check('category', 'No es un ID de mongo válido.').isMongoId(),
+    check('category').custom(existProduct),
     check('id').custom(existProduct),
     validarCampos
 ], updateProduct);

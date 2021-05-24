@@ -67,8 +67,7 @@ const buscarProducts = async(termino = '', res = response) => {
     const regex = new RegExp(termino, 'i');
 
     const products = await Product.find({
-        $or: [{ name: regex }],
-        $and: [{ status: true }]
+        $or: [{ name: regex }, { cod: regex }]
     });
 
     res.json({

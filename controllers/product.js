@@ -28,7 +28,8 @@ const getProducts = async(req, res = response) => {
 const getProduct = async(req, res = response) => {
 
     const { id } = req.params;
-    const product = await Product.findById(id).populate('usuario', 'name').populate('category', 'category');
+    // const product = await Product.findById(id).populate('usuario', 'name').populate('category', 'category');
+    const product = await Product.findOne({ _id: id }).populate('usuario', 'name').populate('category', 'category');
 
     res.json(product);
 };
@@ -38,12 +39,14 @@ const getProduct = async(req, res = response) => {
 const updateProduct = async(req, res = response) => {
 
     const { id } = req.params;
-    const { status, user, ...data } = req.body;
+    const data = req.body;
 
     if (data.name) {
         data.name = data.name.toUpperCase();
     }
     data.user = req.uid;
+
+
 
     const product = await Product.findByIdAndUpdate(id, data, { new: true });
 
